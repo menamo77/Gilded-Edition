@@ -1,445 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Vibe Magazine</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE DISCO // Personal Cosmos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #05020a;
+            --space-purple: #120524;
+            --neon-magenta: #ff007f;
+            --neon-cyan: #00f3ff;
+            --chrome-silver: #e2e8f0;
+            --gold-accent: #ffd700;
+            --glass-bg: rgba(18, 5, 36, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
 
-    :root {
-      --bg: #09090b;
-      --card-bg: rgba(20, 20, 25, 0.75);
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --burgundy: #58111a;
-      --burgundy-glow: #8b1e2b;
-      --white: #f8f8f8;
-      --gray: #9a9a9f;
-      --border: rgba(212, 175, 55, 0.2);
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 127, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 243, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.1) 0%, transparent 60%);
+            color: var(--chrome-silver);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
 
-    body {
-      background-color: var(--bg);
-      color: var(--white);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
+        /* Starry background effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(white 1px, transparent 0);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
 
-    /* Background canvas for interactive gold/burgundy particles */
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
 
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-    }
+        /* Header / Hero Section */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            position: relative;
+            border-bottom: 1px solid var(--glass-border);
+        }
 
-    /* Header */
-    header {
-      text-align: center;
-      padding: 4rem 0 3rem 0;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 3rem;
-    }
+        .badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
 
-    .magazine-tag {
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 20%, var(--chrome-silver) 50%, var(--neon-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
+            margin-bottom: 20px;
+        }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.8rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--white) 30%, var(--gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .subtitle {
+            font-size: 1.1rem;
+            color: #b8b2cb;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
 
-    header p {
-      color: var(--gray);
-      font-size: 1.05rem;
-      max-width: 500px;
-      margin: 0 auto;
-      font-weight: 300;
-    }
+        /* Glassmorphism Sections */
+        section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Layout Sections */
-    section {
-      margin-bottom: 4rem;
-    }
+        section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-magenta), var(--neon-cyan), transparent);
+            animation: scanline 6s linear infinite;
+        }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+        @keyframes scanline {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
 
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-    /* Grid Layouts */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
+        h2 span {
+            color: var(--neon-magenta);
+            font-size: 1.2rem;
+        }
 
-    /* Cards */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      position: relative;
-      overflow: hidden;
-    }
+        /* Bio / Captain's Log */
+        .bio-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.5);
-      box-shadow: 0 20px 40px rgba(88, 17, 26, 0.25);
-    }
+        @media (max-width: 768px) {
+            .bio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-    .card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: var(--gold-light);
-    }
+        .bio-text p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #d1cbdc;
+            margin-bottom: 15px;
+        }
 
-    .card p {
-      color: var(--gray);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
+        .stats-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+        }
 
-    /* Interactive Buttons */
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      border: 1px solid var(--gold);
-      background: transparent;
-      color: var(--white);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
 
-    .btn:hover {
-      background: var(--burgundy);
-      border-color: var(--burgundy-glow);
-      box-shadow: 0 0 20px rgba(139, 30, 43, 0.6);
-    }
+        .stat-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
 
-    /* Photo Gallery Section */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
+        .stat-label {
+            color: #9a90b8;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
 
-    .photo-frame {
-      height: 240px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(88, 17, 26, 0.3), rgba(20, 20, 25, 0.9));
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
+        .stat-value {
+            color: var(--neon-cyan);
+            font-weight: 700;
+        }
 
-    .photo-frame:hover {
-      transform: scale(1.02);
-      border-color: var(--gold);
-    }
+        /* Photo Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
 
-    .photo-frame span {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: var(--white);
-    }
+        .photo-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
 
-    .photo-frame sub {
-      color: var(--gold);
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-top: 0.2rem;
-    }
+        .photo-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
+        }
 
-    /* Interactive Vibe Player / Music Box */
-    .player-box {
-      background: linear-gradient(135deg, rgba(88, 17, 26, 0.4), var(--card-bg));
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
+        .photo-placeholder {
+            height: 220px;
+            background: linear-gradient(135deg, #1f0b3b, #0c0418);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c5d96;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
 
-    .player-info h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-    }
+        .photo-placeholder::after {
+            content: '✨ CHROME FRAME';
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+            opacity: 0.7;
+        }
 
-    .player-info p {
-      color: var(--gray);
-      font-size: 0.85rem;
-    }
+        .photo-caption {
+            padding: 15px;
+            font-size: 0.9rem;
+            color: #b8b2cb;
+            text-align: center;
+        }
 
-    .player-controls {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+        /* Intergalactic Playlist / Vibe Log */
+        .playlist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    .circle-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 1px solid var(--gold);
-      background: rgba(212, 175, 55, 0.1);
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-    }
+        .track-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
 
-    .circle-btn:hover {
-      background: var(--gold);
-      color: var(--bg);
-      box-shadow: 0 0 15px var(--gold);
-    }
+        .track-item:hover {
+            background: rgba(255, 0, 127, 0.1);
+            border-color: var(--neon-magenta);
+        }
 
-    @media(max-width: 768px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-      }
-      h1 { font-size: 2.8rem; }
-    }
-  </style>
+        .track-info span {
+            display: block;
+        }
+
+        .track-title {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .track-artist {
+            font-size: 0.85rem;
+            color: #9a90b8;
+        }
+
+        .track-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+
+        /* Footer Transmission */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            color: #7b709c;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        footer span {
+            color: var(--neon-magenta);
+        }
+    </style>
 </head>
 <body>
 
-  <canvas id="particleCanvas"></canvas>
+    <div class="container">
+        <!-- Hero Header -->
+        <header>
+            <div class="badge">✦ Sector 7 // Space Disco Frequency ✦</div>
+            <h1>Starlight Boulevard</h1>
+            <p class="subtitle">Cruising through the cosmos with a glass of stardust, neon beats, and bubbly retro-futuristic energy.</p>
+        </header>
 
-  <div class="wrapper">
-    <!-- Header -->
-    <header>
-      <span class="magazine-tag">Volume I • Special Edition</span>
-      <h1>The Showcase</h1>
-      <p>An immersive space featuring curated moments, memories, and interactive touches.</p>
-    </header>
+        <!-- Captain's Log / Bio -->
+        <section>
+            <h2><span>01</span> Captain's Log</h2>
+            <div class="bio-grid">
+                <div class="bio-text">
+                    <p>Welcome aboard my personal digital spaceship. Leaving the boring gravity behind to drift through an endless stream of chrome, glittering disco balls, and cosmic vibes.</p>
+                    <p>This is my private universe—a bubbly, high-glam sanctuary where the music never stops playing and every view looks like a vintage sci-fi postcard.</p>
+                </div>
+                <div class="stats-box">
+                    <div class="stat-item">
+                        <span class="stat-label">VIBE STATUS</span>
+                        <span class="stat-value">MAX GLAMOUR</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">DESTINATION</span>
+                        <span class="stat-value">NEON GALAXY</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">DISCO BALLS</span>
+                        <span class="stat-value">INFINITE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Section 1: Interactive Cards -->
-    <section>
-      <h2 class="section-title">Highlights</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>The Atmosphere</h3>
-          <p>Designed with deep contrasting tones, rich textures, and dramatic golden details. Click below to scatter light across the canvas.</p>
-          <button class="btn" onclick="triggerBurst()">Ignite Sparks</button>
-        </div>
-        <div class="card">
-          <h3>The Timeline</h3>
-          <p>Organize schedules, special dates, and memorable moments into a seamless interactive layout built for sharing.</p>
-          <button class="btn" onclick="alert('Ready for your custom details!')">Explore Details</button>
-        </div>
-      </div>
-    </section>
+        <!-- Starlight Photo Gallery -->
+        <section>
+            <h2><span>02</span> Visual Transmissions</h2>
+            <div class="gallery-grid">
+                <div class="photo-card">
+                    <div class="photo-placeholder">IMAGE_SLOT_01.JPG</div>
+                    <div class="photo-caption">Cruising past rings of saturn</div>
+                </div>
+                <div class="photo-card">
+                    <div class="photo-placeholder">IMAGE_SLOT_02.JPG</div>
+                    <div class="photo-caption">Glitter cockpit reflections</div>
+                </div>
+                <div class="photo-card">
+                    <div class="photo-placeholder">IMAGE_SLOT_03.JPG</div>
+                    <div class="photo-caption">Midnight starlight highway</div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Section 2: Photo Gallery Preview -->
-    <section>
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery-grid">
-        <div class="photo-frame">
-          <span>Moment 01</span>
-          sub>Featured Memory</sub>
-        </div>
-        <div class="photo-frame">
-          <span>Moment 02</span>
-          <sub>Highlights</sub>
-        </div>
-        <div class="photo-frame">
-          <span>Moment 03</span>
-          <sub>Atmosphere</sub>
-        </div>
-      </div>
-    </section>
+        <!-- Intergalactic Playlist -->
+        <section>
+            <h2><span>03</span> Space Disco Jukebox</h2>
+            <div class="playlist-container">
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-title">Starlight Highway Chase</span>
+                        <span class="track-artist">Cosmic Synthwave Mix</span>
+                    </div>
+                    <div class="track-badge">NOW PLAYING</div>
+                </div>
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-title">Glitter in Zero Gravity</span>
+                        <span class="track-artist">Retro Space Disco</span>
+                    </div>
+                    <div class="track-badge">QUEUED</div>
+                </div>
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-title">Chrome Spaceship Sunset</span>
+                        <span class="track-artist">Future Nostalgia</span>
+                    </div>
+                    <div class="track-badge">QUEUED</div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Section 3: Vibe Player / Music Widget -->
-    <section>
-      <h2 class="section-title">Soundtrack</h2>
-      <div class="player-box">
-        <div class="player-info">
-          <h4>Current Vibe Playlist</h4>
-          <p>Set the mood with your favorite soundtrack.</p>
-        </div>
-        <div class="player-controls">
-          <button class="circle-btn" onclick="togglePlay(this)">▶</button>
-          <span style="font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em;" id="status-text">Paused</span>
-        </div>
-      </div>
-    </section>
-  </div>
+        <!-- Footer -->
+        <footer>
+            <p>TRANSMISSION SECURED // DESIGNED FOR THE <span>COSMIC VIBE</span></p>
+        </footer>
+    </div>
 
-  <script>
-    // Canvas interactive background particles
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-
-    let width, height;
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    class Particle {
-      constructor(x, y) {
-        this.x = x || Math.random() * width;
-        this.y = y || Math.random() * height;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.density = (Math.random() * 25) + 5;
-        this.color = Math.random() > 0.3 ? '#d4af37' : '#8b1e2b';
-        this.alpha = Math.random() * 0.6 + 0.2;
-      }
-
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      update() {
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < mouse.radius && mouse.x !== null) {
-          let force = (mouse.radius - distance) / mouse.radius;
-          let directionX = (dx / distance) * force * this.density;
-          let directionY = (dy / distance) * force * this.density;
-          this.x -= directionX;
-          this.y -= directionY;
-        } else {
-          if (this.x !== this.baseX) {
-            this.x -= (this.x - this.baseX) / 15;
-          }
-          if (this.y !== this.baseY) {
-            this.y -= (this.y - this.baseY) / 15;
-          }
-        }
-      }
-    }
-
-    function initParticles() {
-      particles = [];
-      let count = (width * height) / 12000;
-      for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.draw();
-        p.update();
-      });
-      requestAnimationFrame(animate);
-    }
-
-    initParticles();
-    animate();
-
-    function triggerBurst() {
-      for (let i = 0; i < 40; i++) {
-        let p = new Particle(window.innerWidth / 2, window.innerHeight / 2);
-        p.density = Math.random() * 60 + 10;
-        particles.push(p);
-      }
-    }
-
-    function togglePlay(btn) {
-      const status = document.getElementById('status-text');
-      if (btn.innerText === '▶') {
-        btn.innerText = '⏸';
-        status.innerText = 'Playing Vibe... ✨';
-        status.style.color = 'var(--white)';
-      } else {
-        btn.innerText = '▶';
-        status.innerText = 'Paused';
-        status.style.color = 'var(--gold)';
-      }
-    }
-  </script>
 </body>
 </html>
