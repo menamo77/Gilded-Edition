@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STARLIGHT CRUISER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>✦ SPACE AGE DIARY // 60s DISCO SCI-FI ✦</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Shrikhand&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --disco-pink: #ff007f;
+            --disco-blue: #00ffff;
+            --disco-gold: #ffea00;
+            --nokia-screen: #98fb98;
+            --dark-space: #110022;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,211 +21,255 @@
         }
 
         body {
-            background-color: #1a0614;
+            background-color: var(--dark-space);
+            /* Creating a wild retro space-disco background with flash-light highlights */
             background-image: 
-                radial-gradient(circle at 30% 20%, rgba(255, 120, 50, 0.5) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
-                linear-gradient(135deg, #2b0b20 0%, #12030f 100%);
-            color: #fffdfa;
-            font-family: 'Syne', sans-serif;
+                radial-gradient(circle at 50% 10%, rgba(255, 0, 127, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 234, 0, 0.4) 0%, transparent 40%),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px); /* Nokia scanline effect */
+            color: #ffffff;
+            font-family: 'Space Mono', monospace;
             overflow-x: hidden;
-            min-height: 100vh;
-            padding: 60px 20px;
+            padding: 20px;
         }
 
-        /* Subtle glowing stars overlay */
+        /* Blinding disco ball shimmer overlay */
         body::before {
-            content: '';
+            content: '✨ 🪩 🌟 🪩 ✨ 🌟 🪩 ✨';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-image: radial-gradient(white 1.2px, transparent 0);
-            background-size: 50px 50px;
-            opacity: 0.6;
-            z-index: -1;
-        }
-
-        .wrapper {
-            max-width: 800px;
-            margin: 0 auto;
             text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 20px;
+            opacity: 0.25;
+            z-index: 999;
+            pointer-events: none;
+            text-shadow: 0 0 10px #fff;
         }
 
-        /* Editorial Header */
+        .container {
+            max-width: 650px; /* Nokia phone screen width vibe */
+            margin: 40px auto;
+            border: 4px ridge #fff;
+            background: rgba(10, 2, 20, 0.85);
+            padding: 30px;
+            box-shadow: 0 0 50px rgba(255, 0, 127, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.3);
+            position: relative;
+        }
+
+        /* Nokia style top header bar */
+        .phone-header {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            color: var(--nokia-screen);
+            border-bottom: 2px dashed var(--nokia-screen);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 5px var(--nokia-screen);
+        }
+
+        /* 60s Space Age Sci-Fi Title */
         header {
-            margin-bottom: 80px;
-        }
-
-        .tagline {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: #ffd700;
-            margin-bottom: 20px;
-            opacity: 0.9;
+            text-align: center;
+            margin-bottom: 35px;
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 400;
-            font-style: italic;
-            letter-spacing: -1px;
-            color: #ffffff;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-            line-height: 1.1;
-            margin-bottom: 25px;
+            font-family: 'Shrikhand', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--disco-gold);
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px var(--disco-pink), -3px -3px 0px var(--disco-blue);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
-        .intro-text {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #f3e8d2;
-            max-width: 580px;
-            margin: 0 auto;
-            font-weight: 400;
+        .subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 1.6rem;
+            color: var(--disco-blue);
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px var(--disco-blue);
         }
 
-        /* Free-flowing sections (NO BOXES) */
-        .content-group {
-            margin-bottom: 80px;
-        }
-
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-style: italic;
-            color: #ffd700;
+        /* Year Navigation / Tabs */
+        .uni-years {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 30px;
-            font-weight: 400;
+            flex-wrap: wrap;
         }
 
-        /* Clean, borderless image layout */
-        .image-stream {
+        .year-btn {
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem;
+            background: #220033;
+            color: #fff;
+            border: 2px solid var(--disco-pink);
+            padding: 5px 15px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px var(--disco-blue);
+            transition: all 0.1s ease;
+        }
+
+        .year-btn:hover {
+            background: var(--disco-pink);
+            color: #000;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px var(--disco-gold);
+        }
+
+        /* Diary Section */
+        .diary-section {
+            margin-bottom: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .section-title {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            color: var(--disco-gold);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            border-left: 5px solid var(--disco-gold);
+            padding-left: 10px;
+        }
+
+        /* Nokia-style grainy/flash photo frames */
+        .photo-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        @media (max-width: 768px) {
-            .image-stream {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .image-frame {
-            height: 320px;
-            background: linear-gradient(135deg, rgba(255, 100, 50, 0.2), rgba(255, 215, 0, 0.1));
-            border-radius: 4px;
+        .nokia-frame {
+            height: 180px;
+            background: #2a003f;
+            border: 3px solid #fff;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: transform 0.4s ease;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px var(--disco-pink);
         }
 
-        .image-frame:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 215, 0, 0.5);
+        /* Simulating low-fi flash camera grain / glare */
+        .nokia-frame::after {
+            content: '📸 NOKIA_001.JPG';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-family: 'VT323', monospace;
+            font-size: 0.9rem;
+            color: var(--nokia-screen);
+            background: rgba(0,0,0,0.7);
+            padding: 2px 6px;
         }
 
-        /* Elegant Tracklist (No cards, just clean lines) */
-        .track-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
+        .nokia-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Gives pictures that raw, high-contrast flash look */
+            filter: contrast(130%) brightness(110%) saturate(120%); 
         }
 
-        .track-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .placeholder-text {
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            color: #ddaaff;
+            text-align: center;
+            padding: 10px;
         }
 
-        .track-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
+        /* Sparkly / Glitchy text notes */
+        .diary-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #fce4ec;
+            margin-bottom: 15px;
         }
 
-        .track-sub {
-            font-size: 0.85rem;
-            color: #d1bfa3;
-            font-style: italic;
-        }
-
-        /* Minimal Footer */
-        footer {
-            margin-top: 100px;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
+        /* Footer */
+        .phone-footer {
+            text-align: center;
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem;
+            color: var(--disco-gold);
+            border-top: 2px dashed rgba(255,255,255,0.3);
+            padding-top: 15px;
+            margin-top: 20px;
+            text-shadow: 0 0 5px var(--disco-gold);
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
+    <div class="container">
+        <!-- Nokia Phone Top Bar -->
+        <div class="phone-header">
+            <span>🪩 SPACE-DISCO OS</span>
+            <span>BATTERY: 100% 🔋</span>
+        </div>
+
         <!-- Header -->
         <header>
-            <div class="tagline">✦ Sunset Highway Transmission ✦</div>
-            <h1>Starlight Boulevard</h1>
-            <p class="intro-text">Cruising through a golden-hour dreamscape where every sparkle feels like magic. Windows down, sunset reflecting off the chrome dashboard, and pure good energy ahead.</p>
+            <h1>Uni Starlight Disco</h1>
+            <div class="subtitle">~ 60s SCI-FI FEVER DREAM ~</div>
         </header>
 
-        <!-- Visuals Section -->
-        <div class="content-group">
-            <h2>Visual Diary</h2>
-            <div class="image-stream">
-                <div class="image-frame">MOMENT_01</div>
-                <div class="image-frame">MOMENT_02</div>
-                <div class="image-frame">MOMENT_03</div>
+        <!-- University Year Navigation -->
+        <div class="uni-years">
+            <button class="year-btn">YEAR 1 🚀</button>
+            <button class="year-btn">YEAR 2 🪩</button>
+            <button class="year-btn">YEAR 3 ✨</button>
+            <button class="year-btn">YEAR 4 🪐</button>
+        </div>
+
+        <!-- First Year Diary Entry -->
+        <div class="diary-section">
+            <div class="section-title">✦ YEAR 01: LIFT-OFF</div>
+            <p class="diary-text">Entering university like stepping onto a 1960s retro-futuristic moon base. Lots of flash photography, late nights, chaotic fun, and shining like a disco ball through it all.</p>
+            
+            <div class="photo-grid">
+                <div class="nokia-frame">
+                    <div class="placeholder-text">✦ ADD PIC ✦<br>Flash & Grain</div>
+                </div>
+                <div class="nokia-frame">
+                    <div class="placeholder-text">✦ ADD PIC ✦<br>Disco Night</div>
+                </div>
             </div>
         </div>
 
-        <!-- Soundtrack Section -->
-        <div class="content-group">
-            <h2>Soundtrack</h2>
-            <div class="track-list">
-                <div class="track-row">
-                    <div>
-                        <div class="track-title">Golden Hour Starlight Chase</div>
-                        <div class="track-sub">Retro Sunset Synth</div>
-                    </div>
-                    <div style="font-size: 0.8rem; color: #ffd700; letter-spacing: 2px;">PLAYING</div>
+        <!-- Second Year Diary Entry -->
+        <div class="diary-section">
+            <div class="section-title">✦ YEAR 02: ORBITING</div>
+            <p class="diary-text">Navigating the cosmos with the best people. Pure high-glam sci-fi energy, neon lights, low-fi camera rolls, and zero boring moments.</p>
+            
+            <div class="photo-grid">
+                <div class="nokia-frame">
+                    <div class="placeholder-text">✦ ADD PIC ✦<br>Campus Vibes</div>
                 </div>
-                <div class="track-row">
-                    <div>
-                        <div class="track-title">Sparkling Convertible Drive</div>
-                        <div class="track-sub">Dreamy Electro Pop</div>
-                    </div>
-                </div>
-                <div class="track-row">
-                    <div>
-                        <div class="track-title">Code in the Sunset Sky</div>
-                        <div class="track-sub">Future Nostalgia</div>
-                    </div>
+                <div class="nokia-frame">
+                    <div class="placeholder-text">✦ ADD PIC ✦<br>Friends & Fun</div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <footer>
-            <p>End of Transmission</p>
-        </footer>
+        <div class="phone-footer">
+            <p>✨ KEEP DISCO ALIVE // TRANSMISSION END ✨</p>
+        </div>
     </div>
 
 </body>
