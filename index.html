@@ -3,15 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Experience</title>
+  <title>The Vibe Magazine</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
     :root {
-      --bg: #0a0a0c;
+      --bg: #09090b;
+      --card-bg: rgba(20, 20, 25, 0.75);
       --gold: #d4af37;
+      --gold-light: #f3e5ab;
       --burgundy: #58111a;
-      --white: #fcfcfc;
-      --glass: rgba(255, 255, 255, 0.03);
-      --border: rgba(212, 175, 55, 0.25);
+      --burgundy-glow: #8b1e2b;
+      --white: #f8f8f8;
+      --gray: #9a9a9f;
+      --border: rgba(212, 175, 55, 0.2);
     }
 
     * {
@@ -23,146 +28,346 @@
     body {
       background-color: var(--bg);
       color: var(--white);
-      font-family: 'Playfair Display', Georgia, serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow-x: hidden;
+      position: relative;
     }
 
+    /* Background canvas for interactive gold/burgundy particles */
     canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .container {
+    .wrapper {
       position: relative;
-      z-index: 2;
-      perspective: 1000px;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
     }
 
-    .card {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3rem 4rem;
+    /* Header */
+    header {
       text-align: center;
-      max-width: 480px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
-                  inset 0 0 20px rgba(212, 175, 55, 0.05);
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease-out, box-shadow 0.3s ease;
-      cursor: pointer;
+      padding: 4rem 0 3rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
     }
 
-    .card:hover {
-      box-shadow: 0 40px 80px rgba(88, 17, 26, 0.4),
-                  inset 0 0 30px rgba(212, 175, 55, 0.15);
-    }
-
-    .tag {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    .magazine-tag {
       font-size: 0.75rem;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       display: block;
     }
 
     h1 {
-      font-size: 2.8rem;
-      font-weight: 400;
-      line-height: 1.2;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff 30%, var(--gold) 100%);
+      background: linear-gradient(135deg, var(--white) 30%, var(--gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    p {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 0.95rem;
-      color: #a0a0a5;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
+    header p {
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto;
       font-weight: 300;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 2.2rem;
-      border: 1px solid var(--gold);
-      background: transparent;
+    /* Layout Sections */
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
       color: var(--white);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      border-radius: 50px;
-      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
       position: relative;
       overflow: hidden;
     }
 
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow: 0 20px 40px rgba(88, 17, 26, 0.25);
+    }
+
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--gold-light);
+    }
+
+    .card p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Interactive Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--white);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
     .btn:hover {
       background: var(--burgundy);
-      border-color: var(--burgundy);
-      box-shadow: 0 0 25px rgba(88, 17, 26, 0.8);
+      border-color: var(--burgundy-glow);
+      box-shadow: 0 0 20px rgba(139, 30, 43, 0.6);
+    }
+
+    /* Photo Gallery Section */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .photo-frame {
+      height: 240px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(88, 17, 26, 0.3), rgba(20, 20, 25, 0.9));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-frame:hover {
+      transform: scale(1.02);
+      border-color: var(--gold);
+    }
+
+    .photo-frame span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+
+    .photo-frame sub {
+      color: var(--gold);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* Interactive Vibe Player / Music Box */
+    .player-box {
+      background: linear-gradient(135deg, rgba(88, 17, 26, 0.4), var(--card-bg));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .player-info h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .player-info p {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    .player-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .circle-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    .circle-btn:hover {
+      background: var(--gold);
+      color: var(--bg);
+      box-shadow: 0 0 15px var(--gold);
+    }
+
+    @media(max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 2.8rem; }
     }
   </style>
 </head>
 <body>
 
-  <canvas id="canvas"></canvas>
+  <canvas id="particleCanvas"></canvas>
 
-  <div class="container">
-    <div class="card" id="card">
-      <span class="tag">Interactive Visual</span>
-      <h1>Elegance in Motion</h1>
-      <p>Move your cursor across the screen to interact with the fluid golden aura and tilt the glass perspective.</p>
-      <button class="btn" onclick="burstParticles()">Trigger Aura</button>
-    </div>
+  <div class="wrapper">
+    <!-- Header -->
+    <header>
+      <span class="magazine-tag">Volume I • Special Edition</span>
+      <h1>The Showcase</h1>
+      <p>An immersive space featuring curated moments, memories, and interactive touches.</p>
+    </header>
+
+    <!-- Section 1: Interactive Cards -->
+    <section>
+      <h2 class="section-title">Highlights</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>The Atmosphere</h3>
+          <p>Designed with deep contrasting tones, rich textures, and dramatic golden details. Click below to scatter light across the canvas.</p>
+          <button class="btn" onclick="triggerBurst()">Ignite Sparks</button>
+        </div>
+        <div class="card">
+          <h3>The Timeline</h3>
+          <p>Organize schedules, special dates, and memorable moments into a seamless interactive layout built for sharing.</p>
+          <button class="btn" onclick="alert('Ready for your custom details!')">Explore Details</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Photo Gallery Preview -->
+    <section>
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery-grid">
+        <div class="photo-frame">
+          <span>Moment 01</span>
+          sub>Featured Memory</sub>
+        </div>
+        <div class="photo-frame">
+          <span>Moment 02</span>
+          <sub>Highlights</sub>
+        </div>
+        <div class="photo-frame">
+          <span>Moment 03</span>
+          <sub>Atmosphere</sub>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Vibe Player / Music Widget -->
+    <section>
+      <h2 class="section-title">Soundtrack</h2>
+      <div class="player-box">
+        <div class="player-info">
+          <h4>Current Vibe Playlist</h4>
+          <p>Set the mood with your favorite soundtrack.</p>
+        </div>
+        <div class="player-controls">
+          <button class="circle-btn" onclick="togglePlay(this)">▶</button>
+          <span style="font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em;" id="status-text">Paused</span>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
-    const canvas = document.getElementById('canvas');
+    // Canvas interactive background particles
+    const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
 
     let width, height;
     let particles = [];
-    let mouse = { x: null, y: null, radius: 180 };
+    let mouse = { x: null, y: null, radius: 150 };
 
     function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-
     window.addEventListener('resize', resize);
     resize();
 
     window.addEventListener('mousemove', (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
 
     class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
+      constructor(x, y) {
+        this.x = x || Math.random() * width;
+        this.y = y || Math.random() * height;
         this.size = Math.random() * 2 + 0.5;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
-        this.color = Math.random() > 0.4 ? '#d4af37' : '#58111a';
-        this.alpha = Math.random() * 0.7 + 0.3;
+        this.density = (Math.random() * 25) + 5;
+        this.color = Math.random() > 0.3 ? '#d4af37' : '#8b1e2b';
+        this.alpha = Math.random() * 0.6 + 0.2;
       }
 
       draw() {
@@ -170,7 +375,6 @@
         ctx.globalAlpha = this.alpha;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.closePath();
         ctx.fill();
       }
 
@@ -178,63 +382,62 @@
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        let forceDirectionX = dx / distance;
-        let forceDirectionY = dy / distance;
-        let maxDistance = mouse.radius;
-        let force = (maxDistance - distance) / maxDistance;
-        let directionX = forceDirectionX * force * this.density;
-        let directionY = forceDirectionY * force * this.density;
 
-        if (distance < mouse.radius) {
+        if (distance < mouse.radius && mouse.x !== null) {
+          let force = (mouse.radius - distance) / mouse.radius;
+          let directionX = (dx / distance) * force * this.density;
+          let directionY = (dy / distance) * force * this.density;
           this.x -= directionX;
           this.y -= directionY;
         } else {
           if (this.x !== this.baseX) {
-            let dx = this.x - this.baseX;
-            this.x -= dx / 10;
+            this.x -= (this.x - this.baseX) / 15;
           }
           if (this.y !== this.baseY) {
-            let dy = this.y - this.baseY;
-            this.y -= dy / 10;
+            this.y -= (this.y - this.baseY) / 15;
           }
         }
       }
     }
 
-    function init() {
+    function initParticles() {
       particles = [];
-      let numberOfParticles = (width * height) / 9000;
-      for (let i = 0; i < numberOfParticles; i++) {
+      let count = (width * height) / 12000;
+      for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
     }
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].draw();
-        particles[i].update();
-      }
+      particles.forEach(p => {
+        p.draw();
+        p.update();
+      });
       requestAnimationFrame(animate);
     }
 
-    init();
+    initParticles();
     animate();
 
-    const card = document.getElementById('card');
-    document.addEventListener('mousemove', (e) => {
-      let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-      let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-      card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-    });
-
-    function burstParticles() {
-      for (let i = 0; i < 30; i++) {
-        let p = new Particle();
-        p.x = window.innerWidth / 2;
-        p.y = window.innerHeight / 2;
-        p.density = Math.random() * 80 + 20;
+    function triggerBurst() {
+      for (let i = 0; i < 40; i++) {
+        let p = new Particle(window.innerWidth / 2, window.innerHeight / 2);
+        p.density = Math.random() * 60 + 10;
         particles.push(p);
+      }
+    }
+
+    function togglePlay(btn) {
+      const status = document.getElementById('status-text');
+      if (btn.innerText === '▶') {
+        btn.innerText = '⏸';
+        status.innerText = 'Playing Vibe... ✨';
+        status.style.color = 'var(--white)';
+      } else {
+        btn.innerText = '▶';
+        status.innerText = 'Paused';
+        status.style.color = 'var(--gold)';
       }
     }
   </script>
